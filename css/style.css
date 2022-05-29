@@ -1,0 +1,36 @@
+.dashboard {
+    background: repeating-linear-gradient(90deg, #ffff5b, #ebf8e1, #ffff5b 20%);
+  }
+  
+  .city-search {
+    border: solid #888888 1px;
+  }
+  
+  .city-search:focus{
+      padding: 10px;
+      box-shadow: 5px 10px 8px #888888;
+  }
+  
+  .city-search-btn:focus{
+    box-shadow: 5px 10px 8px #888888;
+  }
+  
+  hr {
+    margin-top: 2vh;
+    border-top: 8px black solid;
+    opacity: 100;
+  }
+  
+  ul{
+  
+  }
+  
+  li {
+  
+  }
+  
+  .current-city-weather{
+    margin: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+  }
