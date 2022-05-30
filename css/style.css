@@ -1,5 +1,5 @@
 .dashboard {
-    background: repeating-linear-gradient(90deg, #ffff5b, #ebf8e1, #ffff5b 20%);
+    background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
   }
   
   .city-search {
