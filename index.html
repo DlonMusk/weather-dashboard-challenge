@@ -11,9 +11,9 @@
     <title>DOCUMENT</title>
 </head>
 
-<body>
+<body class="bg-light">
 
-    <div class="dashboard jumbotron jumbotron-fluid row py-4 mb-5">
+    <div class="dashboard jumbotron jumbotron-fluid row py-4">
         <div class="container text-center">
             <h1 class="display-2">Weather Dashboard <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70"
                     fill="currentColor" class="bi bi-brightness-high" viewBox="0 0 16 16">
@@ -24,14 +24,17 @@
     </div>
 
 
-    <div class="container-fluid m-0">
+    <div class="container-fluid m-0 pt-5 bg-light">
         <div class="row">
-            <div class="col-4 bg-light" style="height: 80vh;">
+            <div class="col-xs-12 col-sm-4">
                 <div class="search-container text-center">
                     <h1>Search for a City:</h1>
-                    <input class="col-10 m-3 rounded city-search" style="height: 40px; outline:none" type="text">
-                    <button class="col-10 bg-info rounded border-0 city-search-btn"
-                        style="height: 40px;color:whitesmoke">Search</button>
+                    <form action="" method="get" class="row d-flex justify-content-center">
+                        <input class="col-8 my-2 rounded city-search" type="text" placeholder="Enter City" style="height: 40px; outline:none" required>
+                        <button type="submit" class="col-8 bg-info rounded border-0 city-search-btn"
+                            style="height: 40px;color:whitesmoke">Search</button>
+                    </form>
+                    
                     <hr>
                     <ul class="search-history">
 
@@ -39,19 +42,18 @@
                 </div>
 
             </div>
-            <div class="col-8 bg-light" style="height: 80vh;">
+            <div class="col-xs-12 col-sm-8">
                 <div class="row me-0">
-                    <div class="current-city-weather col-12 p-3" style="height: 30vh;">
-                        <h1 class="city-date">HELLO</h1>
-                        <p class="current-temp">34</p>
-                        <p class="current-wind">23</p>
-                        <p class="current-humidity">1</p>
-                        <p class="current-uv">UV Index: <button class="uv-btn"></button></p>
+                    <div class="current-city-weather col-11 p-4" >
+                        <h1 class="city-date"></h1>
+                        <p class="current-temp"></p>
+                        <p class="current-wind"></p>
+                        <p class="current-humidity"></p>
                     </div>
-                    <div class="current-city-forecast col-12" style="height: 30vh;">
+                    <div class="current-city-forecast col-12">
                         <h1>5 Day Forecast: </h1>
-                        <div class="row justify-content-around forecast-cards">
-                            
+                        <div class="row justify-content-around forecast-cards g-2">
+
                         </div>
                     </div>
                 </div>
