@@ -27,7 +27,7 @@ let forecastCardsEl = $('.forecast-cards');
 
 let createCardFunction = (dayData, day) => {
     // create all divs for cards
-    let card = $('<div>').addClass('card col-2').width('13rem');
+    let card = $('<div>').addClass('card col-sm-12 col-md-2 w-sm-100 w-md-20');
     let cardBody = $('<div>').addClass('card-body');
     cardBody.append($('<h5>').addClass('card-date').text(day));
     cardBody.append($('<img>').addClass('img-fluid').attr('src', `http://openweathermap.org/img/wn/${dayData.weather[0].icon}@2x.png`));
@@ -69,7 +69,7 @@ let getWeatherFor = (event) => {
         currentHumidityEl.text(`Humidity: ${data.main.humidity}%`);
 
         // create button of city searched for ul
-        
+
 
 
         // set up variables for new api call
