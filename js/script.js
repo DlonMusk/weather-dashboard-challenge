@@ -1,3 +1,4 @@
+// api call variables
 let APIkey = "33dd8089fae8f031899985c245c8aa0a";
 let city = "london,ca";
 let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=metric`;
@@ -11,6 +12,7 @@ let time = moment().format("L");
 //search elements
 let citySearchEl = $('.city-search');
 let searchBtnEl = $('.city-search-btn');
+let searchHistoryEl = $('.search-history');
 
 // current weather elements
 let cityDateEl = $(".city-date");
@@ -24,7 +26,7 @@ let forecastCardsEl = $('.forecast-cards');
 
 
 
-
+// creates cards to display forecast
 let createCardFunction = (dayData, day) => {
     // create all divs for cards
     let card = $('<div>').addClass('card col-sm-12 col-md-2 w-sm-100 w-md-20');
@@ -40,12 +42,42 @@ let createCardFunction = (dayData, day) => {
     forecastCardsEl.append(card);
 }
 
-let getWeatherFor = (event) => {
-    
+// sets the weather based on the text input and creates a new button to search again later
+let getWeatherText = (event) => {
+    getWeatherFor(event, citySearchEl.val())
+    // check length of ul and create new UL button for search history if 8 or less and add event listener
+    let btnArray = searchHistoryEl.children();
+
+    // already in the list
+    if($(`[data-city|='${citySearchEl.val()}']`).text() == citySearchEl.val()){
+
+        return;
+    }
+
+    // list has reached its length remove last element
+    if(btnArray.length > 7){
+        searchHistoryEl.children().last().remove();
+    }
+
+    // add new button to start of list
+    let newSearchHistoryBtn = $('<button>').addClass('col-8 rounded history-search-btn').attr('data-city', `${citySearchEl.val()}`).text(`${citySearchEl.val()}`);
+    newSearchHistoryBtn.on('click', getWeatherBtn);
+    searchHistoryEl.prepend(newSearchHistoryBtn);
+    console.log(searchHistoryEl.children().length);
+}
+
+// button to re search city in list
+let getWeatherBtn = (event) => {
+    city = event.currentTarget.getAttribute('data-city');
+    getWeatherFor(event, city)
+}
+
+// loads the city data into the UI
+let getWeatherFor = (event, city) => {  
     event.preventDefault();
-    city = citySearchEl.val();
+
+    // if no city entered, return nothing
     if(city == ""){
-        // popup
         return;
     }
     
@@ -68,10 +100,6 @@ let getWeatherFor = (event) => {
         currentWindEl.text(`Wind: ${data.wind.speed}KPH`);
         currentHumidityEl.text(`Humidity: ${data.main.humidity}%`);
 
-        // create button of city searched for ul
-
-
-
         // set up variables for new api call
         let lat = data.coord.lat;
         let lon = data.coord.lon;
@@ -91,19 +119,16 @@ let getWeatherFor = (event) => {
             currentCityWeatherEl.append(currentUvEl);
             
             // clear forecast-cards div then create and populate new forecast cards
-            
             for (let i = 0; i < 5; i++) {
                 createCardFunction(data.daily[i], moment().add(i, 'd').format('L'))
             }
         })
     })
-
-    console.log(citySearchEl.val())
 }
 
 
-
-searchBtnEl.on('click', getWeatherFor);
+// add event listener for the search button
+searchBtnEl.on('click', getWeatherText);
 
 
 

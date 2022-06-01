@@ -1,3 +1,4 @@
+
 .dashboard {
     background: linear-gradient(90deg, #00d2ff 0%, #3a47d5 100%);
 }
@@ -14,16 +15,21 @@
 .city-search-btn:focus {
     box-shadow: 5px 10px 8px #888888;
 }
+.city-search-btn{
+    margin-bottom: 2vh;
+}
+
+.history-search-btn{
+    margin: 1vh 0;
+    height: 4vh;
+    background-color: #233a67;
+    color: whitesmoke;
+}
 
 hr {
-    margin-top: 2vh;
     border-top: 8px black solid;
     opacity: 100;
 }
-
-ul {}
-
-li {}
 
 p {
     font-weight: bold;
