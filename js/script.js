@@ -38,7 +38,7 @@ let createCardFunction = (dayData, day) => {
     cardBody.append($('<p>').addClass('card-humidity').text(`Humidity: ${dayData.humidity}`));
     card.append(cardBody);
 
-
+    
     forecastCardsEl.append(card);
 }
 
@@ -49,13 +49,12 @@ let getWeatherText = (event) => {
     let btnArray = searchHistoryEl.children();
 
     // already in the list
-    if($(`[data-city|='${citySearchEl.val()}']`).text() == citySearchEl.val()){
-
+    if ($(`[data-city|='${citySearchEl.val()}']`).text() == citySearchEl.val()) {
         return;
     }
 
     // list has reached its length remove last element
-    if(btnArray.length > 7){
+    if (btnArray.length > 7) {
         searchHistoryEl.children().last().remove();
     }
 
@@ -73,26 +72,31 @@ let getWeatherBtn = (event) => {
 }
 
 // loads the city data into the UI
-let getWeatherFor = (event, city) => {  
+let getWeatherFor = (event, city) => {
     event.preventDefault();
 
     // if no city entered, return nothing
-    if(city == ""){
+    if (city == "") {
         return;
     }
-    
+
     url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=metric`;
 
     // initial fetch for coordinates and initial weather data
     fetch(url).then(function (response) {
-        if(response.status > 200){
-            document.location = "./index.html";
+        // reset page if bad response
+        if (response.status > 300) {
+            document.location = './index.html'
         }
         return response.json();
     }).then(function (data) {
-        console.log(data);
+        // empty current weather data
         forecastCardsEl.empty();
         $('.current-uv').remove();
+
+
+
+
 
         // set current weather
         cityDateEl.text(`${data.name} (${time})`);
@@ -114,10 +118,24 @@ let getWeatherFor = (event, city) => {
             // create uv element and button
             console.log(data);
             let currentUvEl = $('<p>').addClass('current-uv').text("UV Index: ");
+
+            //using a button element for easier styling
             let uvBtnEl = $('<button>').addClass('uv-btn').text(data.current.uvi);
+
+            // setting uv element color based on uv index
+            if (data.current.uvi <= 2) {
+                uvBtnEl.addClass('bg-success');
+            } else if (data.current.uvi <= 5) {
+                uvBtnEl.addClass('bg-warning');
+            } else if (data.current.uvi <= 7) {
+                uvBtnEl.attr('style', 'background-color: orange;');
+            } else {
+                uvBtnEl.addClass('bg-danger');
+            }
             currentUvEl.append(uvBtnEl);
             currentCityWeatherEl.append(currentUvEl);
-            
+
+
             // clear forecast-cards div then create and populate new forecast cards
             for (let i = 0; i < 5; i++) {
                 createCardFunction(data.daily[i], moment().add(i, 'd').format('L'))
