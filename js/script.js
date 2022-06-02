@@ -24,6 +24,8 @@ let currentCityWeatherEl = $('.current-city-weather');
 // weather forecast elements
 let forecastCardsEl = $('.forecast-cards');
 
+let cityArray = [];
+
 
 
 // creates cards to display forecast
@@ -38,7 +40,7 @@ let createCardFunction = (dayData, day) => {
     cardBody.append($('<p>').addClass('card-humidity').text(`Humidity: ${dayData.humidity}`));
     card.append(cardBody);
 
-    
+
     forecastCardsEl.append(card);
 }
 
@@ -62,7 +64,6 @@ let getWeatherText = (event) => {
     let newSearchHistoryBtn = $('<button>').addClass('col-8 rounded history-search-btn').attr('data-city', `${citySearchEl.val()}`).text(`${citySearchEl.val()}`);
     newSearchHistoryBtn.on('click', getWeatherBtn);
     searchHistoryEl.prepend(newSearchHistoryBtn);
-    console.log(searchHistoryEl.children().length);
 }
 
 // button to re search city in list
@@ -86,6 +87,7 @@ let getWeatherFor = (event, city) => {
     fetch(url).then(function (response) {
         // reset page if bad response
         if (response.status > 300) {
+            localStorage.setItem('cities', JSON.stringify(cityArray));
             document.location = './index.html'
         }
         return response.json();
@@ -94,8 +96,8 @@ let getWeatherFor = (event, city) => {
         forecastCardsEl.empty();
         $('.current-uv').remove();
 
-
-
+        // push city onto array for local storage later
+        cityArray.push(city);
 
 
         // set current weather
@@ -116,7 +118,6 @@ let getWeatherFor = (event, city) => {
             return response.json();
         }).then(function (data) {
             // create uv element and button
-            console.log(data);
             let currentUvEl = $('<p>').addClass('current-uv').text("UV Index: ");
 
             //using a button element for easier styling
@@ -148,6 +149,20 @@ let getWeatherFor = (event, city) => {
 // add event listener for the search button
 searchBtnEl.on('click', getWeatherText);
 
+// function to reload page and pull search history from local storage after bad call
+let reloadSearchHistory = () => {
+    let citiesArray = JSON.parse(localStorage.getItem('cities'));
+    if (citiesArray) {
+        for(let i = 0; i < citiesArray.length; i++){
+            cityArray.push(citiesArray[i]);
+            let newSearchHistoryBtn = $('<button>').addClass('col-8 rounded history-search-btn').attr('data-city', `${citiesArray[i]}`).text(`${citiesArray[i]}`);
+            newSearchHistoryBtn.on('click', getWeatherBtn);
+            searchHistoryEl.prepend(newSearchHistoryBtn);
+        }
+    }
+}
+
+reloadSearchHistory();
 
 
 
